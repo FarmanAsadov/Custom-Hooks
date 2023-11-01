@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import useFetch from "./hooks/useFetch";
 
 function App() {
+  const { data, loading, error } = useFetch(
+    "https://jsonplaceholder.typicode.com/todos"
+  );
+  console.log(data);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Todo List</h1>
+      {loading ? (
+        <h1>Loading...</h1>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : (
+        <ul>
+          {data.map((todo) => (
+            <li key={todo.id}>{todo.title}</li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
